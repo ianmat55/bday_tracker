@@ -11,3 +11,24 @@ body {
 	flex-direction: column;
 	height: 70vh;
 }
+
+h1 {
+	margin-bottom: 20px !important;
+}
+
+form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: black !important;
+}
+
+table {
+	margin: auto;
+}

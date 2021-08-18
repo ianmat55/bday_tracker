@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method='post'>
+	<input name="name" type="text" placeholder="Enter name"/>
+	<input name="birthday" type="date" placeholder="Enter birthday"/>
+	<button type="submit"> Submit </button>
+</form>
+
+<a href='#'> See data! </a>
+
+	<!-- testing if input is inserting into urls table -->
+	<table>
+		{% for i in test %}
+		<tr>
+			<td> {{ i[0] }} </td>
+			<td> {{ i[1] }} </td>
+			<td> {{ i[2] }} </td>
+		</tr>
+		{% endfor %}
+	</table>
+
+{% endblock %}

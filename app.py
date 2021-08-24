@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, url_for, flash
+from wtforms import DateField
+from flask_wtf import Form
 import sqlite3
 import os
 
@@ -6,6 +8,9 @@ def get_db_connect():
 	con = sqlite3.connect('database.db')
 	return con
 		
+class DateTime(Form):
+	pass 
+
 key = os.urandom(21)
 app = Flask(__name__)
 SECRET_KEY = key

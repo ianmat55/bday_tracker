@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, flash
 from wtforms import DateField, validators, SubmitField, StringField
-from flask_wtf import FlaskForm, Form
+from flask_wtf import Form
 import sqlite3
 import os
 
@@ -8,7 +8,7 @@ def get_db_connect():
 	con = sqlite3.connect('database.db')
 	return con
 		
-class Birthday(FlaskForm):
+class Birthday(Form):
 	birthdate = DateField('date', format='%Y-%m-%d')
 	name = StringField('Full Name')
 	submit = SubmitField('submit')

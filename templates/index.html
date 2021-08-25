@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form method='POST' action="{{ url_for('form') }}">
+<form method='POST' action={{ url_for('index') }}>
+	{{ form.hidden_tag() }}
 	{{ form.csrf_token }}
 	{{ form.name }}
 	{{ form.birthdate }}
+	{{ form.submit }}
 	<input type="submit" value="Submit">
 
 <a href='#'> See data! </a>

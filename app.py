@@ -1,6 +1,5 @@
 from flask import Flask, render_template, flash
 from wtforms import DateField, StringField, SubmitField
-from flask_sqlalchemy import SQLAlechemy
 from wtforms.validators import DataRequired
 from flask_wtf import FlaskForm
 import sqlite3

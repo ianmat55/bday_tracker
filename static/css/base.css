@@ -44,6 +44,21 @@ td {
 	padding: 10px;
 }
 
-#updel button {
-	margin: 10px;
+#updel p {
+	margin: 20px 15px;
+	display: inline-block
+}
+
+#updateform {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#deleteform {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }

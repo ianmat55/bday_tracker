@@ -5,39 +5,53 @@ from flask_wtf import FlaskForm
 import sqlite3
 import os
 
+
+#Establish db connection to sqlite
 def get_db_connect():
 	con = sqlite3.connect('database.db')
 	return con
-		
+
+#Forms
 class BirthdayForm(FlaskForm):
 	birthdate = DateField('Date', validators=[DataRequired()])
 	name = StringField('Full Name' , validators=[DataRequired()])
 	submit = SubmitField('Submit')
 
+class UpdateForm(FlaskForm):
+	name_update = StringField('Full Name', validators=[DataRequired()])
+	birthdate_update = DateField('Date', validators=[DataRequired()])
+	submit_update = SubmitField('Submit')
+
+class DeleteForm(FlaskForm):
+	name_delete = StringField('Full Name', validators=[DataRequired()])
+	submit_delete = SubmitField('Submit')
+
+#app init and secret key
 key = os.urandom(21)
 app = Flask(__name__)
 SECRET = key
 app.config['SECRET_KEY'] = SECRET
 
+
+# Routes
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
 	con = get_db_connect()
 	c = con.cursor()
 
-	form = BirthdayForm()
+	form1 = BirthdayForm()
+	form2 = UpdateForm()
+	form3 = DeleteForm()
 
-	if form.validate_on_submit():
-		try:
-			c.execute('INSERT into birthdays (name, birthday) VALUES (?,?)',
-				(form.name.data, form.birthdate.data,))
+	if form1.validate_on_submit():
+		c.execute('INSERT into birthdays (name, birthday) VALUES (?,?)',
+			(form1.name.data, form1.birthdate.data,))
 
-			form.name.data = ""
-			form.birthdate.data = ""
-			
-			flash("friend added!")
-		except:
-			flash("duplicate entry")
+		form1.name.data = ""
+		form1.birthdate.data = ""
+
+		
 
 	#select data to display
 	c.execute("""
@@ -63,4 +77,17 @@ def index():
 	con.commit()
 	con.close()
 
-	return render_template('index.html', form=form, test=test)
+	#update form
+	if form2.validate_on_submit():
+		pass
+		
+	#delete form
+	if form3.validate_on_submit():
+		c.execute('DELETE (name, birday) FROM birthdays WHERE name = VALUES (?)',
+			(form3.name_delete.data))
+
+		con.commit()
+		con.close()
+
+
+	return render_template('index.html', form1=form1, form2=form2, form3=form3, test=test)

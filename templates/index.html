@@ -2,16 +2,16 @@
 
 {% block content %}
 <form method='POST' action='/'>
-	{{ form.csrf_token }}
-	{{ form.hidden_tag() }}
+	{{ form1.csrf_token }}
+	{{ form1.hidden_tag() }}
 
-	{{ form.name.label }}
-	{{ form.name() }}
+	{{ form1.name.label }}
+	{{ form1.name }}
 
-	{{ form.birthdate.label }}
-	{{ form.birthdate() }}
+	{{ form1.birthdate.label }}
+	{{ form1.birthdate }}
 
-	{{ form.submit }}
+	{{ form1.submit }}
 </form>
 
 <p id="toggle"> See data! </p>
@@ -28,8 +28,24 @@
 			{% endfor %}
 		</table>
 		<div id="updel">
-			<button id="update"> Update </button>
-			<button id="delete"> Delete </button>
+			<p id="update_toggle"> Update </p>
+			<p id="delete_toggle"> Delete </p>
+		</div>
+		<div class="container">
+			<div id="updateform">
+				{{ form1.name.label }}
+				{{ form2.name_update }}
+
+				{{ form1.birthdate.label }}
+				{{ form2.birthdate_update }}
+
+				{{ form2.submit_update }}
+			</div>
+			<div id="deleteform">
+				{{ form1.name.label}}
+				{{ form3.name_delete }}
+				{{ form3.submit_delete }}
+			</div>
 		</div>
 	</div>
 	

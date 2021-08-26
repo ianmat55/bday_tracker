@@ -22,7 +22,7 @@ form {
 	align-items: center;
 }
 
-a {
+p {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -35,4 +35,8 @@ table {
 
 input {
 	margin: 10px !important;
+}
+
+td {
+	padding: 10px;
 }

@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, url_for, flash
-from wtforms import DateField, validators, SubmitField, StringField
+from flask import Flask, render_template, flash
+from wtforms import DateField, StringField, SubmitField
+from flask_sqlalchemy import SQLAlechemy
+from wtforms.validators import DataRequired
 from flask_wtf import FlaskForm
 import sqlite3
 import os
@@ -9,9 +11,9 @@ def get_db_connect():
 	return con
 		
 class BirthdayForm(FlaskForm):
-	birthdate = DateField('date', format='%Y-%m-%d')
-	name = StringField('Full Name')
-	submit = SubmitField('submit')
+	birthdate = DateField('date', validators=[DataRequired()])
+	name = StringField('Full Name', validators=[DataRequired()])
+	submit = SubmitField('Submit')
 
 key = os.urandom(21)
 app = Flask(__name__)
@@ -27,38 +29,37 @@ def index():
 	form = BirthdayForm()
 
 	if form.validate_on_submit():
-
 		try:
 			c.execute('INSERT into birthdays (name, birthday) VALUES (?,?)',
 				(form.name, form.birthdate,))
 		except:
 			flash("duplicate entry")
 
-		# #select data to display
-		# c.execute("""
-		# SELECT DISTINCT
-		# name, birthday
-		# , CASE 
-		# 	WHEN strftime('%m',date('now')) > strftime('%m',date(birthday)) THEN strftime('%Y',date('now')) - strftime('%Y',date(birthday))
-		# 	WHEN strftime('%m',date('now')) = strftime('%m',date(birthday)) THEN 
-		# 		CASE 
-		# 			WHEN strftime('%d',date('now')) >= strftime('%d',date(birthday)) THEN strftime('%Y',date('now')) - strftime('%Y',date(birthday))
-		# 			ELSE strftime('%Y',date('now')) - strftime('%Y',date(birthday)) - 1
-		# 		END
-		# 	WHEN strftime('%m',date('now')) < strftime('%m',date(birthday)) THEN strftime('%Y',date('now')) - strftime('%Y',date(birthday)) - 1
+		#select data to display
+		c.execute("""
+		SELECT DISTINCT
+		name, birthday
+		, CASE 
+			WHEN strftime('%m',date('now')) > strftime('%m',date(birthday)) THEN strftime('%Y',date('now')) - strftime('%Y',date(birthday))
+			WHEN strftime('%m',date('now')) = strftime('%m',date(birthday)) THEN 
+				CASE 
+					WHEN strftime('%d',date('now')) >= strftime('%d',date(birthday)) THEN strftime('%Y',date('now')) - strftime('%Y',date(birthday))
+					ELSE strftime('%Y',date('now')) - strftime('%Y',date(birthday)) - 1
+				END
+			WHEN strftime('%m',date('now')) < strftime('%m',date(birthday)) THEN strftime('%Y',date('now')) - strftime('%Y',date(birthday)) - 1
 
-		# END AS 'age'
+		END AS 'age'
 
-		# FROM birthdays
-		# ORDER BY birthday;
-		# """)
+		FROM birthdays
+		ORDER BY birthday;
+		""")
 
-		# test = c.fetchall()
+		test = c.fetchall()
 
 		con.commit()
 		con.close()
 
-		return render_template('index.html', form=form)
+		return render_template('index.html', form=form, test=test)
 	
 	else:
 		return render_template('index.html', form=form)

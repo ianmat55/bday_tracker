@@ -6,11 +6,10 @@ window.onload = function() {
 	toggle.onclick = function () {
 		if (target.style.display !== "none") {
 			target.style.display = "none";
-			target.style.margin = "auto";
+
 		} else {
 			target.style.display = "flex";
-			target.style.justifyContent = "center";
-			target.style.alignItems = "center";
+	
 		}
 	};
 };

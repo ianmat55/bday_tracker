@@ -30,8 +30,10 @@ form {
 }
 
 #data {
-	margin: auto;
 	display: none;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
 input {
@@ -40,4 +42,8 @@ input {
 
 td {
 	padding: 10px;
+}
+
+#updel button {
+	margin: 10px;
 }

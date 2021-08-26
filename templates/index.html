@@ -17,14 +17,21 @@
 <p id="toggle"> See data! </p>
 
 	<!-- testing if input is inserting into urls table -->
-	<table id="data">
-		{% for i in test %}
-		<tr>
-			<td> {{ i[0] }} </td>
-			<td> {{ i[1] }} </td>
-			<td> {{ i[2] }} </td>
-		</tr>
-		{% endfor %}
-	</table>
+	<div id="data">
+		<table>
+			{% for i in test %}
+			<tr>
+				<td> {{ i[0] }} </td>
+				<td> {{ i[1] }} </td>
+				<td> {{ i[2] }} </td>
+			</tr>
+			{% endfor %}
+		</table>
+		<div id="updel">
+			<button id="update"> Update </button>
+			<button id="delete"> Delete </button>
+		</div>
+	</div>
+	
 
 {% endblock %}

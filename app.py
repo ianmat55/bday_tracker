@@ -31,6 +31,10 @@ def index():
 		try:
 			c.execute('INSERT into birthdays (name, birthday) VALUES (?,?)',
 				(form.name.data, form.birthdate.data,))
+
+			form.name.data = ""
+			form.birthdate.data = ""
+			
 			flash("friend added!")
 		except:
 			flash("duplicate entry")

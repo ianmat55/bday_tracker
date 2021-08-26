@@ -22,15 +22,16 @@ form {
 	align-items: center;
 }
 
-p {
+#toggle {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	color: black !important;
 }
 
-table {
+#data {
 	margin: auto;
+	display: none;
 }
 
 input {

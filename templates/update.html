@@ -2,7 +2,7 @@
 {% block title %} Update {% endblock %}
 {% block content %}
 <h1> Update Info </h1>
-<form method='POST' action='/'>
+<form method='POST' action='/update/{{friend_to_update}}'>
 	{{ update_form.csrf_token }}
 	{{ update_form.hidden_tag() }}
 

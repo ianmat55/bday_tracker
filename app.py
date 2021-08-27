@@ -62,11 +62,15 @@ def index():
 
 	return render_template('index.html', form=form, test=test)
 
-@app.route('/update', methods=['GET', 'POST'])
-def update():
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
 	
+
 	con = get_db_connect()
 	c = con.cursor()
+
+	c.execute('SELECT id FROM birthdays')
+	friend_to_update = c.fetchone(id)
 
 	update_form = UpdateForm()
 
@@ -84,6 +88,6 @@ def update():
 	con.commit()
 	con.close()
 
-	return render_template('update.html', update_form=update_form)
+	return render_template('update.html', update_form=update_form, friend_to_update=friend_to_update)
 		
 

@@ -45,7 +45,7 @@ def index():
 
 	
 	#select data to display
-	with open('fetch.sql') as f:
+	with open('sql/fetch.sql') as f:
 		c.execute(f.read())
 		test = c.fetchall()
 	

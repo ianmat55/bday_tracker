@@ -45,12 +45,11 @@ def index():
 
 	
 	#select data to display
-	f = open('fetch.sql')
-	c.execute(f.read())
-	test = c.fetchall()
-
+	with open('fetch.sql') as f:
+		c.execute(f.read())
+		test = c.fetchall()
+	
 	con.commit()
 	con.close()
-
 
 	return render_template('index.html', form=form, test=test)

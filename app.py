@@ -17,15 +17,6 @@ class BirthdayForm(FlaskForm):
 	name = StringField('Full Name' , validators=[DataRequired()])
 	submit = SubmitField('Submit')
 
-class UpdateForm(FlaskForm):
-	name_update = StringField('Full Name', validators=[DataRequired()])
-	birthdate_update = DateField('Date', validators=[DataRequired()])
-	submit_update = SubmitField('Submit')
-
-class DeleteForm(FlaskForm):
-	name_delete = StringField('Full Name', validators=[DataRequired()])
-	submit_delete = SubmitField('Submit')
-
 #app init and secret key
 key = os.urandom(21)
 app = Flask(__name__)
@@ -40,19 +31,19 @@ def index():
 	con = get_db_connect()
 	c = con.cursor()
 
-	form1 = BirthdayForm()
-	form2 = UpdateForm()
-	form3 = DeleteForm()
+	form = BirthdayForm()
 
-	if form1.validate_on_submit():
-		c.execute('INSERT into birthdays (name, birthday) VALUES (?,?)',
-			(form1.name.data, form1.birthdate.data,))
+	if form.validate_on_submit():
+		try:
+			c.execute('INSERT into birthdays (name, birthday) VALUES (?,?)',
+			(form.name.data, form.birthdate.data,))
+			c.commit()
+			c.close()
 
-		form1.name.data = ""
-		form1.birthdate.data = ""
+		except Exception as e:
+			print(e)
 
-		
-
+	
 	#select data to display
 	c.execute("""
 	SELECT DISTINCT
@@ -77,17 +68,5 @@ def index():
 	con.commit()
 	con.close()
 
-	#update form
-	if form2.validate_on_submit():
-		pass
-		
-	#delete form
-	if form3.validate_on_submit():
-		c.execute('DELETE (name, birday) FROM birthdays WHERE name = VALUES (?)',
-			(form3.name_delete.data))
 
-		con.commit()
-		con.close()
-
-
-	return render_template('index.html', form1=form1, form2=form2, form3=form3, test=test)
+	return render_template('index.html', form=form, test=test)

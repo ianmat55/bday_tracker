@@ -12,8 +12,17 @@ body {
 	height: 70vh;
 }
 
+#home-btn {
+	text-decoration: none;
+	color: #04aa6d;
+	font-size: 24px;
+	margin-bottom: 50px;
+}
+
 h1 {
 	margin-bottom: 20px !important;
+	display: flex;
+	justify-content: center;
 }
 
 form {

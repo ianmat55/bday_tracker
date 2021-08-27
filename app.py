@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash
+from flask import Flask, render_template, flash, redirect
 from wtforms import DateField, StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_wtf import FlaskForm
@@ -16,6 +16,14 @@ class BirthdayForm(FlaskForm):
 	birthdate = DateField('Date', validators=[DataRequired()])
 	name = StringField('Full Name' , validators=[DataRequired()])
 	submit = SubmitField('Submit')
+
+class UpdateForm(FlaskForm):
+	update_birthdate = DateField('Date', validators=[DataRequired()])
+	update_name = StringField('Full Name' , validators=[DataRequired()])
+	update_submit = SubmitField('Submit')
+
+class DeleteForm(FlaskForm):
+	pass
 
 #app init and secret key
 key = os.urandom(21)
@@ -41,7 +49,7 @@ def index():
 			c.close()
 
 		except Exception as e:
-			print(e)
+			return e
 
 	
 	#select data to display
@@ -53,3 +61,28 @@ def index():
 	con.close()
 
 	return render_template('index.html', form=form, test=test)
+
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+	con = get_db_connect()
+	c = con.cursor()
+
+	update_form = UpdateForm()
+
+	if update_form.validate_on_submit():
+		try:
+			c.execute('UPDATE birthdays SET (name, birthday) = VALUES (?,?)',
+				 (update_form.update_name.data, update_form.update_birthdate.data))
+			c.commit()
+			c.close()
+
+			return redirect('/')
+
+		except Exception as e:
+			return e
+	con.commit()
+	con.close()
+
+	return render_template('update.html', update_form=update_form)
+		
+

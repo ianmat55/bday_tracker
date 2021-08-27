@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> Update Info </h1>
+<form method='POST' action='/update'>
+	{{ update_form.csrf_token }}
+	{{ update_form.hidden_tag() }}
+
+	{{ update_form.update_name.label }}
+	{{ update_form.update_name }}
+
+	{{ update_form.update_birthdate.label }}
+	{{ update_form.update_birthdate }}
+
+	{{ update_form.update_submit }}
+</form>
+{% endblock %}

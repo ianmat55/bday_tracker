@@ -45,24 +45,8 @@ def index():
 
 	
 	#select data to display
-	c.execute("""
-	SELECT DISTINCT
-	name, birthday
-	, CASE 
-		WHEN strftime('%m',date('now')) > strftime('%m',date(birthday)) THEN strftime('%Y',date('now')) - strftime('%Y',date(birthday))
-		WHEN strftime('%m',date('now')) = strftime('%m',date(birthday)) THEN 
-			CASE 
-				WHEN strftime('%d',date('now')) >= strftime('%d',date(birthday)) THEN strftime('%Y',date('now')) - strftime('%Y',date(birthday))
-				ELSE strftime('%Y',date('now')) - strftime('%Y',date(birthday)) - 1
-			END
-		WHEN strftime('%m',date('now')) < strftime('%m',date(birthday)) THEN strftime('%Y',date('now')) - strftime('%Y',date(birthday)) - 1
-
-	END AS 'age'
-
-	FROM birthdays
-	ORDER BY birthday;
-	""")
-
+	f = open('fetch.sql')
+	c.execute(f.read())
 	test = c.fetchall()
 
 	con.commit()

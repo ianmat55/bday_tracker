@@ -1,4 +1,3 @@
-CREATE VIEW v_bdays
 SELECT 
 name, birthday
 , CASE 

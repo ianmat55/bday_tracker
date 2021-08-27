@@ -64,6 +64,7 @@ def index():
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
+	
 	con = get_db_connect()
 	c = con.cursor()
 

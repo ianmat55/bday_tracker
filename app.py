@@ -67,29 +67,27 @@ def update(id):
 	
 	update_form = UpdateForm()
 
-	con = get_db_connect()
-	c = con.cursor()
 
-	c.execute('SELECT id FROM birthdays WHERE name = ?',
-		 (update_form.update_name.data,))
+	# c.execute('SELECT name FROM birthdays WHERE id = ?',
+	# 	 (id,))
 
-	id = c.fetchone()
+	# name = c.fetchone()
 
-	return f'<h1> {id} </h1>'
 
 	if update_form.validate_on_submit():
 		try:
+			con = get_db_connect()
+			c = con.cursor()
+
 			c.execute('UPDATE birthdays SET name = ?, birthday = ? WHERE id = ?',
 				 (update_form.update_name.data, update_form.update_birthdate.data, id))
 			c.commit()
 			c.close()
 
-			return redirect('/')
+			return 'Yes'
 
-		except Exception as e:
-			return e
-	con.commit()
-	con.close()
+		except Exception:
+			return "No"
 
 	return render_template('update.html', update_form=update_form, id=id)
 		

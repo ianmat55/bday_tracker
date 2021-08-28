@@ -78,17 +78,16 @@ def update(id):
 		try:
 			con = get_db_connect()
 			c = con.cursor()
-
 			c.execute('UPDATE birthdays SET name = ?, birthday = ? WHERE id = ?',
-				 (update_form.update_name.data, update_form.update_birthdate.data, id))
-			c.commit()
-			c.close()
+				(update_form.update_name.data, update_form.update_birthdate.data, id,))
+			con.commit()
+			con.close()
 
-			return 'Yes'
+			return redirect('/')
 
 		except Exception:
-			return "No"
-
+			return 'Update Failed'
+			
 	return render_template('update.html', update_form=update_form, id=id)
 		
 

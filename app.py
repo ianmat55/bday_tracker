@@ -65,19 +65,22 @@ def index():
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
 	
+	update_form = UpdateForm()
 
 	con = get_db_connect()
 	c = con.cursor()
 
-	c.execute('SELECT id FROM birthdays')
-	friend_to_update = c.fetchone(id)
+	c.execute('SELECT id FROM birthdays WHERE name = ?',
+		 (update_form.update_name.data,))
 
-	update_form = UpdateForm()
+	id = c.fetchone()
+
+	return f'<h1> {id} </h1>'
 
 	if update_form.validate_on_submit():
 		try:
-			c.execute('UPDATE birthdays SET (name, birthday) = VALUES (?,?)',
-				 (update_form.update_name.data, update_form.update_birthdate.data))
+			c.execute('UPDATE birthdays SET name = ?, birthday = ? WHERE id = ?',
+				 (update_form.update_name.data, update_form.update_birthdate.data, id))
 			c.commit()
 			c.close()
 
@@ -88,6 +91,6 @@ def update(id):
 	con.commit()
 	con.close()
 
-	return render_template('update.html', update_form=update_form, friend_to_update=friend_to_update)
+	return render_template('update.html', update_form=update_form, id=id)
 		
 

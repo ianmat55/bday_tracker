@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% block title %} Index {% endblock %} 
 {% block content %}
 <h1> Birthday Entry for Forgetful Friends </h1>
 
@@ -23,10 +23,11 @@
 		<table>
 			{% for i in test %}
 			<tr>
-				<td> {{ i[0] }} </td>
 				<td> {{ i[1] }} </td>
 				<td> {{ i[2] }} </td>
-				<td> <a href='/update' class="btn btn-sm btn-outline-secondary"> Update </a> </td>
+				<td> {{ i[3] }} </td>
+				<td> <a href='/update/{{i[0]}}' class="btn btn-sm btn-outline-primary"> Update </a> </td>
+				<td> <a href='#' class='btn btn-sm btn-outline-secondary'> Delete </a> </td>
 			</tr>
 			{% endfor %}
 		</table>

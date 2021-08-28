@@ -1,5 +1,5 @@
 SELECT 
-name, birthday
+id, name, birthday
 , CASE 
 	WHEN strftime('%m',date('now')) > strftime('%m',date(birthday)) THEN strftime('%Y',date('now')) - strftime('%Y',date(birthday))
 	WHEN strftime('%m',date('now')) = strftime('%m',date(birthday)) THEN 

@@ -22,9 +22,6 @@ class UpdateForm(FlaskForm):
 	update_name = StringField('Full Name' , validators=[DataRequired()])
 	update_submit = SubmitField('Submit')
 
-class DeleteForm(FlaskForm):
-	pass
-
 #app init and secret key
 key = os.urandom(21)
 app = Flask(__name__)
@@ -42,16 +39,9 @@ def index():
 	form = BirthdayForm()
 
 	if form.validate_on_submit():
-		try:
-			c.execute('INSERT into birthdays (name, birthday) VALUES (?,?)',
-			(form.name.data, form.birthdate.data,))
-			c.commit()
-			c.close()
+		c.execute('INSERT into birthdays (name, birthday) VALUES (?,?)',
+		(form.name.data, form.birthdate.data,))
 
-		except Exception as e:
-			return e
-
-	
 	#select data to display
 	with open('sql/fetch.sql') as f:
 		c.execute(f.read())
@@ -67,13 +57,6 @@ def update(id):
 	
 	update_form = UpdateForm()
 
-
-	# c.execute('SELECT name FROM birthdays WHERE id = ?',
-	# 	 (id,))
-
-	# name = c.fetchone()
-
-
 	if update_form.validate_on_submit():
 		try:
 			con = get_db_connect()
@@ -87,7 +70,17 @@ def update(id):
 
 		except Exception:
 			return 'Update Failed'
-			
+
 	return render_template('update.html', update_form=update_form, id=id)
 		
+@app.route('/delete/<int:id>')
+def delete(id):
+	con = get_db_connect()
+	c = con.cursor()
+	c.execute('DELETE FROM birthdays WHERE id=?',
+		 (id,))
+	
+	con.commit()
+	con.close()
 
+	return redirect('/')
